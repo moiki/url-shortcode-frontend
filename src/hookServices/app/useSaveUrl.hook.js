@@ -12,7 +12,6 @@ export default function useSaveUrlHook(refetch) {
         onError: (err) => {
             console.log(err.message)
             enqueueSnackbar(err.message || 'There was an error!', {variant: "error", anchorOrigin:{ vertical: 'bottom', horizontal: 'center' }, })
-            localStorage.clear()
         }
     })
 
