@@ -7,36 +7,43 @@ import useUrlTableHook from "../hookServices/app/useUrlTable.hook";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import useSaveUrlHook from "../hookServices/app/useSaveUrl.hook";
-import {LinearProgress} from "@mui/material";
+import {LinearProgress, useFormControl} from "@mui/material";
 import {useEffect, useState} from "react";
-
-const columns = [
-    {
-        field: 'original_url',
-        headerName: 'Original Url',
-        minWidth: 230
-    },
-    {
-        field: 'short_url',
-        headerName: 'Shortcode Url',
-        renderCell: (param) => <a href={param.value} target={"_blank"}>{param.value}</a>,
-        width: 230
-    },
-    {
-        field: 'visits_quantity',
-        headerName: 'Visits',
-        type: 'number',
-        width: 230
-    },
-
-];
 
 
 export default function HomeView() {
+    const [urlControl, setUrlControl] = useState("");
     const [tablePagination, setTablePagination] = useState({page: 1});
     const {dataTable, loading, refetch} = useUrlTableHook();
-    const {loading: loadingSave, executeSave} = useSaveUrlHook(refetch)
+    const {loading: loadingSave, executeSave} = useSaveUrlHook(refetch);
 
+    const onVisit = () => {
+        console.log("refetching...")
+        setTimeout(()=> {
+            refetch({page:1, perPage: 5})
+            document.getElementById("myForm").reset();
+        },1000)
+    }
+    const columns = [
+        {
+            field: 'original_url',
+            headerName: 'Original Url',
+            minWidth: 230
+        },
+        {
+            field: 'short_url',
+            headerName: 'Shortcode Url',
+            renderCell: (param) => <a href={param.value} onClick={onVisit} target={"_blank"}>{param.value}</a>,
+            width: 230
+        },
+        {
+            field: 'visits_quantity',
+            headerName: 'Visits',
+            type: 'number',
+            width: 230
+        },
+
+    ];
     const paginateThis =(page) => {
         console.log(page)
         setTablePagination({...tablePagination, page});
@@ -44,24 +51,27 @@ export default function HomeView() {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        // const data = new FormData(event.currentTarget);
         const variables = {
-            url: data.get('original_url'),
+            url: urlControl,
         }
         executeSave({variables})
+        setUrlControl("")
     };
 
     return (
         <Grid container={true}>
             <Container maxWidth={"md"} width={"100%"}>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" id={"myForm"} onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
                         id="original_url"
-                        label="Url"
+                        label="Insert a url"
                         name="original_url"
+                        value={urlControl}
+                        onChange={(e)=> setUrlControl(e.target.value)}
                         autoFocus
                     />
 

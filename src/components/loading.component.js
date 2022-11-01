@@ -16,7 +16,6 @@ const defaultOptions = {
 export  default function LoadingScreen (props) {
     const {state} = useContext(GlobalContext);
     useEffect(() => {
-        console.log(state)
         if (state.user) {
             console.log("reading changes",state.user)
             props?.verifyOff()

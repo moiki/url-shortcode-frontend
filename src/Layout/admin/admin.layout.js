@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import GlobalContext from "../../store/context.store.js";
 import {Navigate, Outlet, Route, useLocation, useNavigate} from "react-router-dom";
-
 import actionsStore from "../../store/actions.store.js";
 import LoadingScreen from "../../components/loading.component";
 import MainLayout from "./main.layout";
@@ -28,7 +27,6 @@ export const LoadContent = () => appRoutes.map((routes, index) => {
 const RequireAuth = ({children}) => {
     const {state} = useContext(GlobalContext);
     const location = useLocation();
-    console.log(state)
 
     if (!state.user) {
         return (
@@ -49,7 +47,6 @@ export default function AppLayout() {
     const hist = useNavigate()
     const { error } = useQuery(GET_ME, {
         onCompleted: (data) => {
-            console.log(data)
             if (data) {
                 dispatch({
                     type: actionsStore.SET_LOGGED_USER,
