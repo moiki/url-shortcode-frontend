@@ -7,13 +7,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NativoLogo from "../../assets/img/_nativo.png"
+import {Button, IconButton} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function Copyright() {
     return (
         <Typography variant="body2" color="text.secondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Nativo Testing 2022
+                Nativo Testing
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -24,17 +28,33 @@ function Copyright() {
 const theme = createTheme();
 
 export default function MainLayout({children}) {
+    const hist = useNavigate()
+    const logout = () => {
+        localStorage.clear();
+        hist("/login")
+    }
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AppBar position="relative">
-                <Toolbar>
-                    <HttpOutlinedIcon sx={{ mr: 5 }} fontSize={"large"} />
-                    <Typography variant="h6" color="inherit" noWrap>
-                        Url Shorts +
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <div><img src={NativoLogo} width={200}/></div>
+                        </IconButton>
+                        <Typography variant="h6" style={{fontWeight:400}} component="div" sx={{ flexGrow: 1 }}>
+                            Url ShortCode +
+                        </Typography>
+                        <Button color="inherit" startIcon={<LogoutIcon/>} onClick={logout}>Logout</Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
             <main>
                 {children}
             </main>

@@ -10,7 +10,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useAuthentication from "../../hookServices/auth/auth.hook";
-import {LinearProgress} from "@mui/material";
+import {IconButton, LinearProgress} from "@mui/material";
+import NativoLogo from "../../assets/img/_nativo.png";
 
 function Copyright(props) {
     return (
@@ -51,9 +52,15 @@ export default function SignIn() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{ mr: 2 }}
+                    >
+                        <div><img src={"https://www.nativo.la/wp-content/uploads/2020/11/nativo-facebook.png"} width={200}/></div>
+                    </IconButton>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
